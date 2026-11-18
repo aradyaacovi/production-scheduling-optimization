@@ -1,4 +1,9 @@
-# Tested with Python 3.12 and: pandas 3.0.2, pulp 3.3.2, openpyxl 3.1.5
+# Tested with Python 3.11-3.13 and: pandas 3.1.1, pulp 3.3.2, openpyxl 3.1.5
+#
+# pulp is held below 4.0 on purpose. PuLP 4 removed `PULP_CBC_CMD` and stopped
+# bundling the CBC binary, and `solve_lp_subproblem` in Tapi_Project_Utils.py
+# calls `pulp.PULP_CBC_CMD(...)` directly. Until that call is ported to
+# `COIN_CMD` with CBC installed separately, 3.x is the supported line.
 pandas
-pulp
+pulp>=3,<4
 openpyxl

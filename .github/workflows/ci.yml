@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: Smoke tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Report installed versions
+        run: |
+          python -c "import pandas, pulp, openpyxl; print('pandas', pandas.__version__); print('pulp', pulp.__version__); print('openpyxl', openpyxl.__version__)"
+
+      - name: Byte-compile every module
+        run: python -m compileall -q Tapi_Project_GA_Engine.py Tapi_Project_Solver_Engine.py Tapi_Project_Utils.py tests/
+
+      - name: Check that the CBC solver is available to PuLP
+        run: python -c "import pulp; assert pulp.PULP_CBC_CMD().available(), 'CBC solver not available'; print('CBC solver OK')"
+
+      - name: Run smoke tests
+        run: python tests/test_smoke.py
