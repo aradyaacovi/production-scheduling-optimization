@@ -25,3 +25,15 @@ desktop.ini
 # Course documents (kept private)
 *.docx
 *.pdf
+
+# Packaging / build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Test and tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/

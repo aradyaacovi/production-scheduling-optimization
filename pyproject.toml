@@ -1,0 +1,35 @@
+# Project metadata and dependencies.
+#
+# The three modules sit at the repository root and import each other by plain
+# module name, so they are declared here as top-level modules rather than as a
+# package. An editable install makes them importable from any directory:
+#
+#     pip install -e .
+#
+# Plain `pip install -r requirements.txt` works too; then run from the
+# repository root so the modules are on sys.path.
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "production-scheduling-optimization"
+version = "1.0.0"
+description = "Single-machine just-in-time scheduling with a genetic algorithm and linear programming"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Arad Yaacovi" }]
+keywords = ["scheduling", "genetic-algorithm", "linear-programming", "operations-research"]
+dependencies = ["pandas", "pulp", "openpyxl"]
+
+[project.urls]
+Homepage = "https://github.com/aradyaacovi/production-scheduling-optimization"
+
+[tool.setuptools]
+py-modules = [
+    "Tapi_Project_GA_Engine",
+    "Tapi_Project_Solver_Engine",
+    "Tapi_Project_Utils",
+]
