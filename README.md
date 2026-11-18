@@ -212,7 +212,7 @@ examples/
   Output_Example_1_GA.xlsx                   GA result, penalty 207
 .github/workflows/ci.yml         CI: install, compile, solver check, smoke tests
 pyproject.toml                   project metadata; enables `pip install -e .`
-requirements.txt                 pandas, pulp, openpyxl
+requirements.txt                 pandas, pulp (3.x), openpyxl
 ```
 
 The module names come from the course assignment ("Tapi" is the course's abbreviation). They are kept as submitted; see [Possible next steps](#possible-next-steps).
@@ -224,7 +224,7 @@ Code comments are partly in Hebrew, the course language.
 | | |
 |---|---|
 | **Python 3.11+** | the whole program |
-| **PuLP + CBC** | the linear program for exact job timing |
+| **PuLP 3.x + CBC** | the linear program for exact job timing |
 | **pandas** | reading the job table from Excel |
 | **openpyxl** | reading the settings cells, and writing the formatted results sheet |
 | **GitHub Actions** | CI across three Python versions |

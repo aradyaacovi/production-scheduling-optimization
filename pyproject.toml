@@ -22,7 +22,8 @@ requires-python = ">=3.11"
 license = { file = "LICENSE" }
 authors = [{ name = "Arad Yaacovi" }]
 keywords = ["scheduling", "genetic-algorithm", "linear-programming", "operations-research"]
-dependencies = ["pandas", "pulp", "openpyxl"]
+# pulp <4: PuLP 4 removed PULP_CBC_CMD, which Tapi_Project_Utils.py calls.
+dependencies = ["pandas", "pulp>=3,<4", "openpyxl"]
 
 [project.urls]
 Homepage = "https://github.com/aradyaacovi/production-scheduling-optimization"
