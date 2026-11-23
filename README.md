@@ -14,6 +14,21 @@ The code was written with AI tools (Cursor and Claude), working from our problem
 
 ---
 
+## At a glance
+
+| | |
+|---|---|
+| **Problem** | One machine, ten jobs, each with a due date. Finishing early costs storage, finishing late costs a penalty. Find the schedule with the lowest total penalty. |
+| **Method** | A genetic algorithm searches the job order. A linear program (PuLP + CBC) times each order exactly, including deliberate idle time. |
+| **Result on the bundled example** | Total penalty **207** against **250** for the input order, a 17% reduction, in a 100-second run. One instance, one run: see the limits below. |
+| **My part** | Defined the problem and requirements, tested the program, validated and processed the input and output data. Two-person project built with AI tools. |
+
+![Baseline against the genetic-algorithm schedule](docs/gantt_comparison.png)
+
+Both schedules from the example output files. Bars are jobs, triangles are due dates. Early jobs are amber, late jobs red, on-time jobs green. The GA schedule also leaves the machine idle between 66 and 70, which the baseline cannot do.
+
+---
+
 ## The problem
 
 A factory has one machine and a set of jobs waiting for it. Each job `j` has:
