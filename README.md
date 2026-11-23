@@ -154,6 +154,32 @@ The order it found was `j1, j3, j4, j5, j2, j7, j6, j8, j9, j10`, with idle time
 
 On this input the GA found an order with a **17% lower penalty** than the input order. This is one small example. The GA is a heuristic and does not guarantee an optimal schedule — results vary between runs, and on some inputs we tested it did not improve on the input order within the time limit. There are no benchmark numbers in this repository beyond this single documented run.
 
+## Benchmark
+
+[`benchmarks/benchmark.py`](benchmarks/benchmark.py) generates seeded random instances (processing times 2-20, due dates anywhere up to the total processing time, penalties 1-10), then runs the baseline and a 10-second GA (population 20, 2 elite, mutation 0.2) on each. One run per row, same machine.
+
+| Jobs | Seed | Baseline | GA | Change |
+|---|---|---|---|---|
+| 10 | 1 | 2180 | 217 | -90% |
+| 10 | 2 | 1684 | 175 | -90% |
+| 10 | 3 | 1814 | 430 | -76% |
+| 15 | 1 | 7882 | 476 | -94% |
+| 15 | 2 | 4787 | 508 | -89% |
+| 15 | 3 | 7644 | 466 | -94% |
+| 20 | 1 | 5662 | 758 | -87% |
+| 20 | 2 | 9644 | 2242 | -77% |
+| 20 | 3 | 9236 | 888 | -90% |
+
+The input order of a random instance ignores due dates, so the baseline is far worse here than on the hand-made example, and the reductions are larger than the 17% above. Read the table as "the search clearly beats an arbitrary order", not as a comparison with other methods: there is no optimal or other-heuristic reference in this repository.
+
+## Limitations
+
+- Single machine, no setup times, no release dates, all jobs available at time 0.
+- The GA is a heuristic: no optimality guarantee, and results vary between runs.
+- Each order is timed with a 5-second CBC limit; larger instances spend most of their time in LP solves.
+- Benchmarked only up to 20 jobs, 10 seconds per run.
+- Nothing is compared against an exact method or another heuristic.
+
 ## Input and output format
 
 **Input** — an Excel file, see [`examples/Input_Data_File_1_Example.xlsx`](examples/Input_Data_File_1_Example.xlsx):
@@ -196,6 +222,15 @@ Run these from the repository root, so that the three modules are on `sys.path`.
 pip install -e .
 ```
 
+## Command line
+
+```bash
+python scheduling_cli.py --input examples/Input_Data_File_1_Example --output my_result
+python scheduling_cli.py --input examples/Input_Data_File_1_Example --output my_result --baseline-only
+```
+
+File names go without `.xlsx`. The first command runs the genetic algorithm for the time limit in the input file; `--baseline-only` solves just the input order.
+
 Two notes on running the scripts directly:
 
 - `python Tapi_Project_GA_Engine.py` and `python Tapi_Project_Solver_Engine.py` do run, but their `__main__` blocks look for an input file named `Input_Data_File_2_Example.xlsx`, which was a second course input and is not part of this repository. Use the commands above, or edit the `INPUT_NAME` constant at the bottom of the file.
@@ -218,6 +253,8 @@ They cover the three modules importing, reading the bundled example file, the LP
 ```
 Tapi_Project_GA_Engine.py        genetic algorithm main loop (Run_GA)
 Tapi_Project_Solver_Engine.py    baseline: LP on the input order only (Run_Solver)
+scheduling_cli.py                command-line entry point
+benchmarks/benchmark.py          seeded random-instance benchmark
 Tapi_Project_Utils.py            LP model (PuLP), Excel read/write, GA operators, validation
 tests/
   test_smoke.py                  47 smoke-test checks
@@ -273,7 +310,6 @@ The algorithm and the LP model are exactly as submitted. Everything that changed
 Not done, and listed here rather than hidden:
 
 - The three modules are still named `Tapi_Project_*` after the course assignment. Renaming them to something readable (`ga_engine.py`, `solver_engine.py`, `utils.py`) and moving them into a package would read better, at the cost of no longer matching the submitted files.
-- A command-line interface (`python -m scheduling --input ... --output ...`) would be friendlier than the `python -c` one-liners.
 - The run-time stopping rule could be joined by a convergence rule, for example stopping after a number of generations with no improvement.
 
 ## License

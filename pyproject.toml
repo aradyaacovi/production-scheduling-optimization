@@ -33,4 +33,5 @@ py-modules = [
     "Tapi_Project_GA_Engine",
     "Tapi_Project_Solver_Engine",
     "Tapi_Project_Utils",
+    "scheduling_cli",
 ]
