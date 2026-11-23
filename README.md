@@ -25,7 +25,7 @@ The code was written with AI tools (Cursor and Claude), working from our problem
 
 ![Baseline against the genetic-algorithm schedule](docs/gantt_comparison.png)
 
-Both schedules from the example output files. Bars are jobs, triangles are due dates. Early jobs are amber, late jobs red, on-time jobs green. The GA schedule also leaves the machine idle between 66 and 70, which the baseline cannot do.
+Both schedules from the example output files. Bars are jobs, triangles are due dates. Early jobs are amber, late jobs red, on-time jobs green. In both schedules the LP inserts idle time where waiting is cheaper than finishing early (0 to 1 and 66 to 70 in the GA schedule, 65 to 70 in the baseline).
 
 ---
 
